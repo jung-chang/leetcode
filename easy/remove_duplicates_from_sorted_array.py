@@ -9,14 +9,27 @@ class Solution:
     """
 
     def first(self, nums: List[int]) -> int:
-        # 1 1 1 2 3
-        if not nums:
-            return nums
-        end = 1
+        """
+        Keep 2 indices, end of the array and current comparison
+        """
+        # 1 2 3 4
+        # 1 2 2 3
+        #   e   c
+        end = 0
         cur = end + 1
-        end_val = nums[0]
         while cur < len(nums):
-            if nums[cur] > end_val:
+            if nums[cur] != "_" and nums[cur] > nums[end]:
+                if cur - end == 1:
+                    end += 1
+                    cur += 1
+                else:
+                    nums[end + 1] = nums[cur]
+                    nums[cur] = "_"
+                    end += 1
+            else:
+                nums[cur] = "_"
+                cur += 1
+        return end + 1, nums
 
-                end_val = nums[i]
-                end = i + 1
+
+print(Solution().first([1, 1, 2]))
