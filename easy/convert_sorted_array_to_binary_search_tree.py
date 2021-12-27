@@ -1,5 +1,6 @@
 # https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/
 
+import math
 from typing import List, Optional
 
 
@@ -20,4 +21,16 @@ class Solution:
         """
         Start root at half the array, binary search down the halves and make subtrees.
         """
-        pass
+        if not nums:
+            return None
+        half = len(nums) // 2
+        node = TreeNode(nums[half])
+        node.left = self.first(nums[:half])
+        node.right = self.first(nums[half + 1 :])
+        return node
+
+
+root = Solution().first([-10, -3, 0, 5, 9])
+print(root.val)
+print(root.left.val, root.right.val)
+print(root.left.left.val, root.left.right)
