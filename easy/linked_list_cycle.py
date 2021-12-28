@@ -8,6 +8,9 @@ class ListNode:
         self.val = x
         self.next = None
 
+    def __repr__(self):
+        return str(self.val)
+
 
 class Solution:
     """
@@ -19,9 +22,24 @@ class Solution:
     """
 
     def first(self, head: Optional[ListNode]) -> bool:
+        """
+        Keep 2 pointers. Advance at different rate and check if they land on same node.
+        """
+        if not head:
+            return False
         i = head
-        j = None
-        while i is not None and i != j:
-
+        j = head.next
+        while j is not None and i != j:
             i = i.next
+            j = j.next
+            if j:
+                j = j.next
         return i == j
+
+
+head = ListNode(3)
+head.next = ListNode(2)
+head.next.next = ListNode(0)
+head.next.next.next = ListNode(-4)
+head.next.next.next.next = head.next
+print(Solution().first(head))
