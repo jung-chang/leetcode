@@ -26,31 +26,34 @@ class Solution:
 
     def myAtoi(self, s: str) -> int:
         s = s.strip()
-        negative = False
-        if s[0] == "-":
-            negative = True
-            s = s[1:]
-
         if not s:
-            return
+            return 0
 
-        # Read until non digit character.
-        num_range = range(ord("0"), ord("9") + 1)
         i = 0
-        while i < len(s) and ord(s[i]) in num_range:
+        negative = False
+        if s[i] == "-":
+            negative = True
             i += 1
-        s = s[:i]
-
-        # Trim all prefix 0s
-        i = 0
-        while s[i] == "0":
+        elif s[i] == "+":
             i += 1
         s = s[i:]
 
-        max_neg = -2 * 31
+        if not s:
+            return 0
+
+        # Trim all prefix 0s
+        i = 0
+        while i + 1 < len(s) and s[i] == "0":
+            i += 1
+        s = s[i:]
+
+        max_neg = -(2 ** 31)
         max_pos = (2 ** 31) - 1
         num = 0
+        num_range = range(ord("0"), ord("9") + 1)
         for digit in s:
+            if ord(digit) not in num_range:
+                break
             value = ord(digit) - ord("0")
             if negative and -1 * num < (max_neg + value) / 10:
                 return max_neg
@@ -61,4 +64,4 @@ class Solution:
         return -1 * num if negative else num
 
 
-print(Solution().myAtoi("  -00123 qwe"))
+print(Solution().myAtoi("00000-42a1234"))
