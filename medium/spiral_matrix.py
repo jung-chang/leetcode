@@ -54,23 +54,19 @@ class Solution:
         while len(result) < rows * cols:
             # Top going right
             for col in range(offset, cols - offset):
-                print("1", matrix[offset][col])
                 result.append(matrix[offset][col])
             # Right going down
             for row in range(offset + 1, rows - offset):
-                print("2", matrix[row][cols - offset - 1])
                 result.append(matrix[row][cols - offset - 1])
             # Bottom going left
             if rows - 1 - offset > offset:
                 for col in range(cols - offset - 2, offset - 1, -1):
-                    print("3", matrix[rows - 1 - offset][col])
                     result.append(matrix[rows - 1 - offset][col])
             # Left going up
             if cols - offset - 1 > offset:
                 for row in range(rows - offset - 2, offset - 1, -1):
                     if row == offset:
                         break
-                    print("4", matrix[row][offset])
                     result.append(matrix[row][offset])
             offset += 1
         return result
