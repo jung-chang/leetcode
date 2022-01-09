@@ -65,28 +65,52 @@ class Solution:
 
     def second(self, s: str) -> int:
         """
-        https://leetcode.com/problems/decode-ways/discuss/1674198/Python-Dynamic-Programming-with-process.-Time%3A-O(n)-Space%3A-O(n)
+        https://medium.com/tech-life-fun/leet-code-91-decode-ways-graphical-explained-python3-solution-60d97a0852c8
+
+        If you start with [1,2] you get [1,2],[12]
+        If you add [3] we can just decode [3] into "C" and have valid decodes [1,2] + [3], [12] + [3]
+        However since 23 is a letter [1, 23] is valid -> it's one more way to decode on top of ways to decode at [1]
+
+        Example
+            Start [1,2,2] -> [1,2,2], [12,2], [1,22], i=2, dp=[1,2,3]
+            Add [1] -> [1] can fit as is into the above 3 decode ways -> +3 ways
+            [1] can also append to the previous [2] -> [21] -> [1,2,21] and [12, 21]. So it's every way before the prev [2] + [21] ways
+
+            dp[i] = dp[i-1] + dp[i-2] if (1 <= s[i-2:i] <=26)
+
+            What if there's a 0?
+                1. Previous is 0
+                    Do nothing since cant append 0. dp[i] = dp[i-1]
+                2. s[i] is 0
+                    if (1 <= s[i-2:i] <=26) -> dp[i] = dp[i-2]
         """
         if not s:
             return 0
         if s[0] == "0":
             return 0
-        ways = [0] * (len(s) + 1)
-        ways[0] = 1
-        ways[1] = 1
-        i = 2
-        while i < len(s) + 1:
-            # If s[i-1] + s[i] is [10,26]
-            if 10 <= int(s[i - 2 : i]) <= 26:
-                ways[i] += ways[i - 2]
-            # If s[i] is [1,9]
-            if 1 <= int(s[i - 1]) <= 9:
-                ways[i] += ways[i - 1]
-            i += 1
-        print(ways)
-        return max(1, ways[-1])
+        if len(s) == 1:
+            return 1
 
-        # 1 1 2 2
+        # dp[i] = # ways to decode at s[i]
+        dp = [1, 1]
+        i = 1
+        while i < len(s):
+            ways = 0
+            # Adding previous is a letter
+            if s[i - 1] != "0" and 1 <= int(s[i - 1 : i + 1]) <= 26:
+                ways += dp[-2]
+            # Adding itself is a valid decode
+            if s[i] != "0":
+                ways += dp[-1]
+            # If not decodable
+            if not ways:
+                return 0
+            dp.append(ways)
+            i += 1
+        return dp[-1]
+
+        # Test [1,2,2,1], dp=[1,2,0,0], i=2
+        #
 
 
 # print(Solution().numDecodings("1012320"))
@@ -98,4 +122,4 @@ class Solution:
 # print(Solution().second("1120"))
 # print(Solution().second("1020"))
 
-print(Solution().second("1123"))  # 1 1 2 3, 11 2 3, 1 12 3, 1 1 23, 11 23
+print(Solution().second("12"))  # [2 10 1]
