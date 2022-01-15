@@ -91,26 +91,45 @@ class Solution:
         return head
 
     def merge_sort(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        def merge(left: Optional[ListNode], right: Optional[ListNode]):
+            l = left
+            r = right
+            head = ListNode()
+            cur = head
+            while l and r:
+                if l.val <= r.val:
+                    cur.next = l
+                    l = l.next
+                else:
+                    cur.next = r
+                    r = r.next
+                cur = cur.next
+            if l:
+                cur.next = l
+            if r:
+                cur.next = r
+            return head.next
+
         def get_mid(node: ListNode):
             length = 0
             cur = node
             while cur:
                 length += 1
                 cur = cur.next
-            cur = node
             prev = None
+            cur = node
             for _ in range(length // 2):
                 prev = cur
                 cur = cur.next
-            return prev, cur, cur.next
+            prev.next = None
+            return cur
 
+        if not head:
+            return None
         if not head.next:
             return head
-        left, mid, right = get_mid(head)
-
-        left.next = None
-        left_head = self.merge_sort(head)
-        right_head = self.merge_sort(right)
+        mid = get_mid(head)
+        return merge(self.merge_sort(head), self.merge_sort(mid))
 
 
 def print_list(node):
@@ -141,6 +160,6 @@ head = create_list([6, 2, 7, -1, -2, 3, -2, -3])
 print("Original")
 print_list(head)
 
-head = Solution().sortList(head)
+head = Solution().merge_sort(head)
 print("Sorted")
 print_list(head)
