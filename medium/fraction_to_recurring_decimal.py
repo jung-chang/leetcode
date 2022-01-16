@@ -16,13 +16,39 @@ class Solution:
         if numerator % denominator == 0:
             return f"{int(numerator / denominator)}"
 
+        negative = True if numerator * denominator < 0 else False
+        numerator = abs(numerator)
+        denominator = abs(denominator)
         remainder = numerator % denominator
-        whole = numerator // denominator
+        whole = int(numerator / denominator)
 
-        # 1/3 = 0.333333333
-        # 10/3 -> 3 10//3 = 3
-        while remainder:
-            num = remainder * 10
+        print(whole, remainder)
 
         decimal = ""
-        return f"{whole}.{decimal}"
+        repeating_index = None
+        visited = []
+        while remainder:
+            remainder *= 10
+            if remainder in visited:
+                repeating_index = visited.index(remainder)
+                break
+            else:
+                visited.append(remainder)
+            division = int(remainder / denominator)
+            decimal += str(division)
+            remainder -= division * denominator
+
+        if repeating_index is not None:
+            print("repeating_index", repeating_index)
+            non_repating_part = decimal[:repeating_index]
+            repating_part = decimal[repeating_index:]
+            return (
+                f"{'-' if negative else ''}{whole}.{non_repating_part}({repating_part})"
+            )
+        return f"{'-' if negative else ''}{whole}.{decimal}"
+
+
+print(Solution().fractionToDecimal(-50, 8))
+# print(Solution().fractionToDecimal(1, 3))
+# print(Solution().fractionToDecimal(2, 1))
+# print(Solution().fractionToDecimal(1, 6))
