@@ -1,5 +1,6 @@
 from typing import List
 from collections import defaultdict
+import random
 
 
 def merge_sort(nums: List[int]) -> List[int]:
@@ -134,12 +135,104 @@ def selection_sort(nums: List[int]) -> List[int]:
     return nums
 
 
+def bubble_sort(nums: List[int]) -> List[int]:
+    """
+    Check every adjacent pair and swap larger to back. Do until no swaps.
+
+    Worst: O(n^2)
+    Best: O(n) with O(1) swaps
+    Avg: O(n^2)
+    """
+    if not nums:
+        return []
+    if len(nums) == 1:
+        return nums
+    while True:
+        swapped = False
+        for i in range(1, len(nums)):
+            if nums[i - 1] > nums[i]:
+                temp = nums[i]
+                nums[i] = nums[i - 1]
+                nums[i - 1] = temp
+                swapped = True
+        if not swapped:
+            break
+    return nums
+
+
+def quick_sort(nums: List[int]) -> List[int]:
+    """
+    Recursively partition the array, choose a pivot and move less/greater values before/after pivot.
+
+    Divide and conquer algorithm.
+
+    Worst: O(n^2)
+    Best: O(n log n)
+    Avg: O(n log n)
+    """
+
+    if len(nums) <= 1:
+        return nums
+
+    less = []
+    equal = []
+    greater = []
+    pivot = 0
+    for num in nums:
+        if num < nums[pivot]:
+            less.append(num)
+        elif num == nums[pivot]:
+            equal.append(num)
+        else:
+            greater.append(num)
+    return quick_sort(less) + equal + quick_sort(greater)
+
+
+def heap_sort(nums: List[int]) -> List[int]:
+    """
+    Binary heap is a complete binary tree where parent val is greater (max) or smaller (min) than values of its children.
+    Array representation is parent at i with children 2*i + 1 and 2*i + 2.
+
+    O(n log n)
+    """
+    nums = nums.copy()
+
+    def heapify(i: int, nums: List[int]) -> List[int]:
+        largest = i
+        left = 2 * i + 1
+        right = 2 * i + 2
+        if left < len(nums) and nums[left] > nums[largest]:
+            largest = left
+        if right < len(nums) and nums[right] > nums[largest]:
+            largest = right
+        if largest != i:
+            nums[i], nums[largest] = nums[largest], nums[i]
+            heapify(largest, nums)
+
+    # Build a max heap.
+    i = len(nums) // 2
+    while i >= 0:
+        heapify(i, nums)
+        i -= 1
+
+    print(nums)
+
+    # Pop the root element and replace with last item Rebuild heap.
+    result = []
+    while nums:
+        result.append(nums.pop(0))
+        heapify(0, nums)
+
+    return result[::-1]
+
+
 tests = [
+    [1, 12, 9, 5, 6, 10],
+    [-1, -4, -2, 1000, 1231, 1, 4, 5, 6, 7],
     [5, 4, 3, 2, 1],
     [1, 2, 3, 4],
     [1],
     [3, 1],
-    [-1, -4, -2, 1000, 1231, 1, 4, 5, 6, 7],
 ]
 
 for test in tests:
@@ -147,10 +240,10 @@ for test in tests:
     # output = radix_sort_with_buckets(test)
     # output = counting_sort(test)
     # output = insertion_sort(test)
-    output = selection_sort(test)
+    # output = selection_sort(test)
+    # output = bubble_sort(test)
+    # output = quick_sort(test)
+    output = heap_sort(test)
     expected = sorted(test)
     print(output, expected)
     assert output == expected
-
-# bubble sort
-# quicksort
