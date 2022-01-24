@@ -107,6 +107,29 @@ def postorder_dfs_recursive(root: TreeNode):
     )
 
 
+def inorder_iterative(root: TreeNode):
+    if k < 1:
+        return None
+    if not root:
+        return None
+
+    traversal = []
+    stack = []
+    node = root
+    while True:
+        if node:
+            stack.append(node)
+            node = node.left
+            continue
+        if stack:
+            node = stack.pop()
+            traversal.append(node)
+            node = node.right
+        else:
+            break
+    return traversal
+
+
 def preorder_dfs(root: TreeNode):
     stack = [root]
     path = []
