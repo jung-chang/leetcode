@@ -1,0 +1,28 @@
+<!-- build a stripe widget
+Example:
+https://stripe.com/payments/elements
+-->
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>A Basic HTML5 Template</title>
+    <!-- <link rel="stylesheet" href="./index.css" /> -->
+    </head>
+
+    <body>
+    <form class="payment" onsubmit="submitForm(event)">
+        <input class="name" name="name" type="text" placeholder="Name"/>
+        <input class="email" name="email" type="email" placeholder="Email"/>
+        <input class="credit-card-number" name="credit-card-number" type="text" placeholder="1234"/>
+        <input class="expiration-date" name="expieration-date" type="date" />
+        <input class="cvv" name="cvv" type="text" placeholder="cvv"/>
+        <input type="submit" />
+    </form>
+    <script src="./index.js"></script>
+    </body>
+</html>
