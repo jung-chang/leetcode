@@ -108,8 +108,6 @@ def postorder_dfs_recursive(root: TreeNode):
 
 
 def inorder_iterative(root: TreeNode):
-    if k < 1:
-        return None
     if not root:
         return None
 
