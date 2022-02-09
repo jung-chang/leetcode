@@ -28,6 +28,7 @@ class Solution:
         if len(nums) == 1:
             return nums[0]
 
+        # Need to keep track of minimum due to negative values
         maxes = [nums[0]]  # maxes[i] is max number from 0 to i
         mins = [nums[0]]  # mins[i] is min number from 0 to i
         for i in range(1, len(nums)):

@@ -12,7 +12,7 @@ class Solution:
     You may assume that you have an infinite number of each kind of coin.
     """
 
-    def coinChange(self, coins: List[int], amount: int) -> int:
+    def fist(self, coins: List[int], amount: int) -> int:
         """
         DP problem.
 
@@ -60,9 +60,34 @@ class Solution:
                 dp.append(min_coins if min_coins != float("inf") else -1)
         return dp[-1]
 
+    def coinChange(self, coins: List[int], amount: int) -> int:
+        """
+        dp[i] = fewest number of coints that sum to i
 
-c = [3, 7, 405, 436]
-a = 8839
+        dp[i] = min(dp[i-coin] for coin in coins)
+        """
+
+        if not amount:
+            return 0
+
+        dp = [-1] * (amount + 1)
+        dp[0] = 0
+        for i in range(1, amount + 1):
+            min_coins = []
+            for c in coins:
+                if c > i:
+                    continue
+                if c == i:
+                    min_coins.append(1)
+                    break
+                if dp[i - c] == -1:
+                    continue
+                # dp[i-c] = min coins needed for i-c
+                min_coins.append(dp[i - c] + 1)
+            dp[i] = min(min_coins) if min_coins else -1
+        return dp[amount]
 
 
+c = [1, 2, 5]
+a = 11
 print(Solution().coinChange(c, a))
