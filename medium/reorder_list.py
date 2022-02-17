@@ -14,6 +14,27 @@ class ListNode:
 
 class Solution:
     def reorderList(self, head: Optional[ListNode]) -> None:
+        # Find middle
+        slow = head
+        fast = head
+        while fast.next and fast.next.next:
+            slow = slow.next
+            fast = fast.next.next
+
+        # Flip second half
+        prev = None
+        cur = slow.next
+        while cur:
+            temp = cur.next
+            cur.next = prev
+            prev = cur
+            cur = temp
+        slow.next = None
+
+        # Merge
+        
+
+    def first(self, head: Optional[ListNode]) -> None:
         """
         You are given the head of a singly linked-list. The list can be represented as:
 
@@ -75,11 +96,11 @@ def print_nodes(node):
     cur = node
     while cur:
         result.append(cur.val)
+        if len(result) >= 10:
+            break
         cur = cur.next
     print(result)
 
 
-print_nodes(Solution().reorderList(create([1])))
-print_nodes(Solution().reorderList(create([1, 2])))
 print_nodes(Solution().reorderList(create([1, 2, 3, 4, 5])))
-print_nodes(Solution().reorderList(create([1, 2, 3, 4, 5, 6])))
+# print_nodes(Solution().reorderList(create([1, 2, 3, 4, 5, 6])))
