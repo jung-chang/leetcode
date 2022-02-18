@@ -60,4 +60,4 @@ root.right.right = TreeNode(8)
 root.left.right.left = TreeNode(7)
 root.left.right.right = TreeNode(4)
 
-print(Solution().lowestCommonAncestor(root, root.left, root.left.right.right))
+print(Solution().second(root, root.left, root.left.right.right))
