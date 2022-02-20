@@ -49,21 +49,19 @@ class Trie:
 
         # return dfs(self.root, 0)
 
-        def dfs(node, i):
-            stack = [(node, i)]
-            while stack:
-                cur, i = stack.pop()
-                if i == len(word):
-                    if node.end:
-                        return True
-                if word[i] == ".":
-                    for child in cur.children.values():
-                        stack.append((child, i + 1))
-                if node.has(word[i]):
-                    return stack.append((cur.get_child(word[i]), i + 1))
-            return False
-
-        return dfs(self.root, 0)
+        stack = [(self.root, word)]
+        while stack:
+            node, w = stack.pop()
+            if not w:
+                if node.end:
+                    return True
+            elif w[0] == ".":
+                for child in node.children.values():
+                    stack.append((child, w[1:]))
+            else:
+                if w[0] in node.children:
+                    stack.append((node.children[w[0]], w[1:]))
+        return False
 
 
 class WordDictionary:
