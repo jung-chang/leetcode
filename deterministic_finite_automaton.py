@@ -60,3 +60,27 @@ class Solution:
 
 
 print(Solution().myAtoi("-91283472332"))
+
+
+# class StateMachine:
+#     STATE1 = 0
+#     STATE2 = 1
+#     def __init__(self):
+#         self.state = self.STATE1
+
+#     def mutate_result(arg: str):
+#         pass
+
+#     def transition(self, arg: str):
+#         if self.state == self.STATE1:
+#             if arg == "":
+#                 self.mutate_result(arg)
+#         elif self.state == self.STATE2:
+#             if arg == "":
+#                 self.mutate_result(arg)
+
+# state_machine = StateMachine()
+# for arg in input:
+#     state_machine.transition(arg)
+#     if state_machine.state == state_machine.STATE2:
+#         break
