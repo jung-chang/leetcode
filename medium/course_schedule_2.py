@@ -13,7 +13,7 @@ class Solution:
 
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
         """
-        Time limie exceed
+        Time limit exceed
         """
         to_prereqs = defaultdict(set)
         to_courses = defaultdict(set)
